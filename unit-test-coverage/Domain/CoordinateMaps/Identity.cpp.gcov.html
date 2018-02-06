@@ -1,0 +1,280 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - 618f9b73b6d84b7f347f8d39395a8548abde8ea5 - Domain/CoordinateMaps/Identity.cpp</title>
+  <link rel="stylesheet" type="text/css" href="../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">SpECTRE Unit Test Code Coverage Report</td></tr>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../index.html">top level</a> - <a href="index.html">Domain/CoordinateMaps</a> - Identity.cpp<span style="font-size: 80%;"> (source / <a href="Identity.cpp.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Commit:</td>
+             <td class="headerValue"><a target="_blank" href="https://github.com/sxs-collaboration/spectre/commit/618f9b73b6d84b7f347f8d39395a8548abde8ea5">618f9b73b6d84b7f347f8d39395a8548abde8ea5</a></td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">17</td>
+            <td class="headerCovTableEntry">17</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2018-02-06 19:31:01</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">34</td>
+            <td class="headerCovTableEntry">34</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Legend:</td>
+            <td class="headerValueLeg">            Lines:
+            <span class="coverLegendCov">hit</span>
+            <span class="coverLegendNoCov">not hit</span>
+</td>
+            <td></td>
+          </tr>
+          <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : // Distributed under the MIT License.</a>
+<span class="lineNum">       2 </span>            : // See LICENSE.txt for details.
+<span class="lineNum">       3 </span>            : 
+<span class="lineNum">       4 </span>            : #include &quot;Domain/CoordinateMaps/Identity.hpp&quot;
+<span class="lineNum">       5 </span>            : 
+<span class="lineNum">       6 </span>            : #include &quot;DataStructures/MakeWithValue.hpp&quot;
+<span class="lineNum">       7 </span>            : #include &quot;DataStructures/Tensor/Tensor.hpp&quot;
+<span class="lineNum">       8 </span>            : #include &quot;ErrorHandling/Assert.hpp&quot;
+<span class="lineNum">       9 </span>            : #include &quot;Utilities/DereferenceWrapper.hpp&quot;
+<span class="lineNum">      10 </span>            : 
+<span class="lineNum">      11 </span>            : namespace CoordinateMaps {
+<span class="lineNum">      12 </span>            : 
+<a name="13"><span class="lineNum">      13 </span>            : template &lt;size_t Dim&gt;</a>
+<span class="lineNum">      14 </span>            : template &lt;typename T&gt;
+<span class="lineNum">      15 </span><span class="lineCov">         12 : std::array&lt;std::decay_t&lt;tt::remove_reference_wrapper_t&lt;T&gt;&gt;, Dim&gt; Identity&lt;Dim&gt;::</span>
+<span class="lineNum">      16 </span>            : operator()(const std::array&lt;T, Dim&gt;&amp; source_coords) const {
+<span class="lineNum">      17 </span>            :   return make_array&lt;std::decay_t&lt;tt::remove_reference_wrapper_t&lt;T&gt;&gt;, Dim&gt;(
+<span class="lineNum">      18 </span><span class="lineCov">         12 :       source_coords);</span>
+<span class="lineNum">      19 </span>            : }
+<span class="lineNum">      20 </span>            : 
+<span class="lineNum">      21 </span>            : template &lt;size_t Dim&gt;
+<a name="22"><span class="lineNum">      22 </span>            : template &lt;typename T&gt;</a>
+<span class="lineNum">      23 </span>            : std::array&lt;std::decay_t&lt;tt::remove_reference_wrapper_t&lt;T&gt;&gt;, Dim&gt;
+<span class="lineNum">      24 </span><span class="lineCov">         12 : Identity&lt;Dim&gt;::inverse(const std::array&lt;T, Dim&gt;&amp; target_coords) const {</span>
+<span class="lineNum">      25 </span>            :   return make_array&lt;std::decay_t&lt;tt::remove_reference_wrapper_t&lt;T&gt;&gt;, Dim&gt;(
+<span class="lineNum">      26 </span><span class="lineCov">         12 :       target_coords);</span>
+<span class="lineNum">      27 </span>            : }
+<span class="lineNum">      28 </span>            : 
+<span class="lineNum">      29 </span>            : template &lt;size_t Dim&gt;
+<span class="lineNum">      30 </span>            : template &lt;typename T&gt;
+<span class="lineNum">      31 </span>            : Tensor&lt;std::decay_t&lt;tt::remove_reference_wrapper_t&lt;T&gt;&gt;,
+<span class="lineNum">      32 </span>            :        tmpl::integral_list&lt;std::int32_t, 2, 1&gt;,
+<a name="33"><span class="lineNum">      33 </span>            :        index_list&lt;SpatialIndex&lt;Dim, UpLo::Up, Frame::NoFrame&gt;,</a>
+<span class="lineNum">      34 </span>            :                   SpatialIndex&lt;Dim, UpLo::Lo, Frame::NoFrame&gt;&gt;&gt;
+<span class="lineNum">      35 </span><span class="lineCov">         10 : Identity&lt;Dim&gt;::jacobian(const std::array&lt;T, Dim&gt;&amp; source_coords) const {</span>
+<span class="lineNum">      36 </span>            :   Tensor&lt;std::decay_t&lt;tt::remove_reference_wrapper_t&lt;T&gt;&gt;,
+<span class="lineNum">      37 </span>            :          tmpl::integral_list&lt;std::int32_t, 2, 1&gt;,
+<span class="lineNum">      38 </span>            :          index_list&lt;SpatialIndex&lt;Dim, UpLo::Up, Frame::NoFrame&gt;,
+<span class="lineNum">      39 </span>            :                     SpatialIndex&lt;Dim, UpLo::Lo, Frame::NoFrame&gt;&gt;&gt;
+<span class="lineNum">      40 </span><span class="lineCov">         18 :       jac{make_with_value&lt;std::decay_t&lt;tt::remove_reference_wrapper_t&lt;T&gt;&gt;&gt;(</span>
+<span class="lineNum">      41 </span><span class="lineCov">         20 :           dereference_wrapper(source_coords[0]), 0.0)};</span>
+<span class="lineNum">      42 </span><span class="lineCov">         25 :   for (size_t i = 0; i &lt; Dim; ++i) {</span>
+<span class="lineNum">      43 </span><span class="lineCov">         15 :     jac.get(i, i) = 1.0;</span>
+<span class="lineNum">      44 </span>            :   }
+<span class="lineNum">      45 </span><span class="lineCov">         10 :   return jac;</span>
+<span class="lineNum">      46 </span>            : }
+<span class="lineNum">      47 </span>            : 
+<span class="lineNum">      48 </span>            : template &lt;size_t Dim&gt;
+<span class="lineNum">      49 </span>            : template &lt;typename T&gt;
+<span class="lineNum">      50 </span>            : Tensor&lt;std::decay_t&lt;tt::remove_reference_wrapper_t&lt;T&gt;&gt;,
+<span class="lineNum">      51 </span>            :        tmpl::integral_list&lt;std::int32_t, 2, 1&gt;,
+<a name="52"><span class="lineNum">      52 </span>            :        index_list&lt;SpatialIndex&lt;Dim, UpLo::Up, Frame::NoFrame&gt;,</a>
+<span class="lineNum">      53 </span>            :                   SpatialIndex&lt;Dim, UpLo::Lo, Frame::NoFrame&gt;&gt;&gt;
+<span class="lineNum">      54 </span><span class="lineCov">         10 : Identity&lt;Dim&gt;::inv_jacobian(const std::array&lt;T, Dim&gt;&amp; source_coords) const {</span>
+<span class="lineNum">      55 </span>            :   Tensor&lt;std::decay_t&lt;tt::remove_reference_wrapper_t&lt;T&gt;&gt;,
+<span class="lineNum">      56 </span>            :          tmpl::integral_list&lt;std::int32_t, 2, 1&gt;,
+<span class="lineNum">      57 </span>            :          index_list&lt;SpatialIndex&lt;Dim, UpLo::Up, Frame::NoFrame&gt;,
+<span class="lineNum">      58 </span>            :                     SpatialIndex&lt;Dim, UpLo::Lo, Frame::NoFrame&gt;&gt;&gt;
+<span class="lineNum">      59 </span><span class="lineCov">         18 :       inv_jac{make_with_value&lt;std::decay_t&lt;tt::remove_reference_wrapper_t&lt;T&gt;&gt;&gt;(</span>
+<span class="lineNum">      60 </span><span class="lineCov">         20 :           dereference_wrapper(source_coords[0]), 0.0)};</span>
+<span class="lineNum">      61 </span><span class="lineCov">         25 :   for (size_t i = 0; i &lt; Dim; ++i) {</span>
+<span class="lineNum">      62 </span><span class="lineCov">         15 :     inv_jac.get(i, i) = 1.0;</span>
+<span class="lineNum">      63 </span>            :   }
+<span class="lineNum">      64 </span><span class="lineCov">         10 :   return inv_jac;</span>
+<span class="lineNum">      65 </span>            : }
+<span class="lineNum">      66 </span>            : 
+<span class="lineNum">      67 </span>            : template class Identity&lt;1&gt;;
+<span class="lineNum">      68 </span>            : template class Identity&lt;2&gt;;
+<span class="lineNum">      69 </span>            : // Identity should only be used in ProductMaps if a particular dimension is
+<span class="lineNum">      70 </span>            : // unaffected.  So if the largest dim we do is 3, then you should never use
+<span class="lineNum">      71 </span>            : // Identity&lt;3&gt;
+<span class="lineNum">      72 </span>            : 
+<span class="lineNum">      73 </span>            : /// \cond HIDDEN_SYMBOLS
+<span class="lineNum">      74 </span>            : template std::array&lt;double, 1&gt; Identity&lt;1&gt;::operator()(
+<span class="lineNum">      75 </span>            :     const std::array&lt;std::reference_wrapper&lt;const double&gt;, 1&gt;&amp; source_coords)
+<span class="lineNum">      76 </span>            :     const;
+<span class="lineNum">      77 </span>            : template std::array&lt;double, 1&gt; Identity&lt;1&gt;::operator()(
+<span class="lineNum">      78 </span>            :     const std::array&lt;double, 1&gt;&amp; source_coords) const;
+<span class="lineNum">      79 </span>            : template std::array&lt;DataVector, 1&gt; Identity&lt;1&gt;::operator()(
+<span class="lineNum">      80 </span>            :     const std::array&lt;std::reference_wrapper&lt;const DataVector&gt;, 1&gt;&amp;
+<span class="lineNum">      81 </span>            :         source_coords) const;
+<span class="lineNum">      82 </span>            : template std::array&lt;DataVector, 1&gt; Identity&lt;1&gt;::operator()(
+<span class="lineNum">      83 </span>            :     const std::array&lt;DataVector, 1&gt;&amp; source_coords) const;
+<span class="lineNum">      84 </span>            : 
+<span class="lineNum">      85 </span>            : template std::array&lt;double, 1&gt; Identity&lt;1&gt;::inverse(
+<span class="lineNum">      86 </span>            :     const std::array&lt;std::reference_wrapper&lt;const double&gt;, 1&gt;&amp; target_coords)
+<span class="lineNum">      87 </span>            :     const;
+<span class="lineNum">      88 </span>            : template std::array&lt;double, 1&gt; Identity&lt;1&gt;::inverse(
+<span class="lineNum">      89 </span>            :     const std::array&lt;double, 1&gt;&amp; target_coords) const;
+<span class="lineNum">      90 </span>            : template std::array&lt;DataVector, 1&gt; Identity&lt;1&gt;::inverse(
+<span class="lineNum">      91 </span>            :     const std::array&lt;std::reference_wrapper&lt;const DataVector&gt;, 1&gt;&amp;
+<span class="lineNum">      92 </span>            :         target_coords) const;
+<span class="lineNum">      93 </span>            : template std::array&lt;DataVector, 1&gt; Identity&lt;1&gt;::inverse(
+<span class="lineNum">      94 </span>            :     const std::array&lt;DataVector, 1&gt;&amp; target_coords) const;
+<span class="lineNum">      95 </span>            : 
+<span class="lineNum">      96 </span>            : template Tensor&lt;double, tmpl::integral_list&lt;std::int32_t, 2, 1&gt;,
+<span class="lineNum">      97 </span>            :                 index_list&lt;SpatialIndex&lt;1, UpLo::Up, Frame::NoFrame&gt;,
+<span class="lineNum">      98 </span>            :                            SpatialIndex&lt;1, UpLo::Lo, Frame::NoFrame&gt;&gt;&gt;
+<span class="lineNum">      99 </span>            : Identity&lt;1&gt;::jacobian(const std::array&lt;std::reference_wrapper&lt;const double&gt;, 1&gt;&amp;
+<span class="lineNum">     100 </span>            :                           source_coords) const;
+<span class="lineNum">     101 </span>            : template Tensor&lt;double, tmpl::integral_list&lt;std::int32_t, 2, 1&gt;,
+<span class="lineNum">     102 </span>            :                 index_list&lt;SpatialIndex&lt;1, UpLo::Up, Frame::NoFrame&gt;,
+<span class="lineNum">     103 </span>            :                            SpatialIndex&lt;1, UpLo::Lo, Frame::NoFrame&gt;&gt;&gt;
+<span class="lineNum">     104 </span>            : Identity&lt;1&gt;::jacobian(const std::array&lt;double, 1&gt;&amp; source_coords) const;
+<span class="lineNum">     105 </span>            : template Tensor&lt;DataVector, tmpl::integral_list&lt;std::int32_t, 2, 1&gt;,
+<span class="lineNum">     106 </span>            :                 index_list&lt;SpatialIndex&lt;1, UpLo::Up, Frame::NoFrame&gt;,
+<span class="lineNum">     107 </span>            :                            SpatialIndex&lt;1, UpLo::Lo, Frame::NoFrame&gt;&gt;&gt;
+<span class="lineNum">     108 </span>            : Identity&lt;1&gt;::jacobian(const std::array&lt;std::reference_wrapper&lt;const DataVector&gt;,
+<span class="lineNum">     109 </span>            :                                        1&gt;&amp; source_coords) const;
+<span class="lineNum">     110 </span>            : template Tensor&lt;DataVector, tmpl::integral_list&lt;std::int32_t, 2, 1&gt;,
+<span class="lineNum">     111 </span>            :                 index_list&lt;SpatialIndex&lt;1, UpLo::Up, Frame::NoFrame&gt;,
+<span class="lineNum">     112 </span>            :                            SpatialIndex&lt;1, UpLo::Lo, Frame::NoFrame&gt;&gt;&gt;
+<span class="lineNum">     113 </span>            : Identity&lt;1&gt;::jacobian(const std::array&lt;DataVector, 1&gt;&amp; source_coords) const;
+<span class="lineNum">     114 </span>            : 
+<span class="lineNum">     115 </span>            : template Tensor&lt;double, tmpl::integral_list&lt;std::int32_t, 2, 1&gt;,
+<span class="lineNum">     116 </span>            :                 index_list&lt;SpatialIndex&lt;1, UpLo::Up, Frame::NoFrame&gt;,
+<span class="lineNum">     117 </span>            :                            SpatialIndex&lt;1, UpLo::Lo, Frame::NoFrame&gt;&gt;&gt;
+<span class="lineNum">     118 </span>            : Identity&lt;1&gt;::inv_jacobian(const std::array&lt;std::reference_wrapper&lt;const double&gt;,
+<span class="lineNum">     119 </span>            :                                            1&gt;&amp; source_coords) const;
+<span class="lineNum">     120 </span>            : template Tensor&lt;double, tmpl::integral_list&lt;std::int32_t, 2, 1&gt;,
+<span class="lineNum">     121 </span>            :                 index_list&lt;SpatialIndex&lt;1, UpLo::Up, Frame::NoFrame&gt;,
+<span class="lineNum">     122 </span>            :                            SpatialIndex&lt;1, UpLo::Lo, Frame::NoFrame&gt;&gt;&gt;
+<span class="lineNum">     123 </span>            : Identity&lt;1&gt;::inv_jacobian(const std::array&lt;double, 1&gt;&amp; source_coords) const;
+<span class="lineNum">     124 </span>            : template Tensor&lt;DataVector, tmpl::integral_list&lt;std::int32_t, 2, 1&gt;,
+<span class="lineNum">     125 </span>            :                 index_list&lt;SpatialIndex&lt;1, UpLo::Up, Frame::NoFrame&gt;,
+<span class="lineNum">     126 </span>            :                            SpatialIndex&lt;1, UpLo::Lo, Frame::NoFrame&gt;&gt;&gt;
+<span class="lineNum">     127 </span>            : Identity&lt;1&gt;::inv_jacobian(
+<span class="lineNum">     128 </span>            :     const std::array&lt;std::reference_wrapper&lt;const DataVector&gt;, 1&gt;&amp;
+<span class="lineNum">     129 </span>            :         source_coords) const;
+<span class="lineNum">     130 </span>            : template Tensor&lt;DataVector, tmpl::integral_list&lt;std::int32_t, 2, 1&gt;,
+<span class="lineNum">     131 </span>            :                 index_list&lt;SpatialIndex&lt;1, UpLo::Up, Frame::NoFrame&gt;,
+<span class="lineNum">     132 </span>            :                            SpatialIndex&lt;1, UpLo::Lo, Frame::NoFrame&gt;&gt;&gt;
+<span class="lineNum">     133 </span>            : Identity&lt;1&gt;::inv_jacobian(const std::array&lt;DataVector, 1&gt;&amp; source_coords) const;
+<span class="lineNum">     134 </span>            : 
+<span class="lineNum">     135 </span>            : template std::array&lt;double, 2&gt; Identity&lt;2&gt;::operator()(
+<span class="lineNum">     136 </span>            :     const std::array&lt;std::reference_wrapper&lt;const double&gt;, 2&gt;&amp; source_coords)
+<span class="lineNum">     137 </span>            :     const;
+<span class="lineNum">     138 </span>            : template std::array&lt;double, 2&gt; Identity&lt;2&gt;::operator()(
+<span class="lineNum">     139 </span>            :     const std::array&lt;double, 2&gt;&amp; source_coords) const;
+<span class="lineNum">     140 </span>            : template std::array&lt;DataVector, 2&gt; Identity&lt;2&gt;::operator()(
+<span class="lineNum">     141 </span>            :     const std::array&lt;std::reference_wrapper&lt;const DataVector&gt;, 2&gt;&amp;
+<span class="lineNum">     142 </span>            :         source_coords) const;
+<span class="lineNum">     143 </span>            : template std::array&lt;DataVector, 2&gt; Identity&lt;2&gt;::operator()(
+<span class="lineNum">     144 </span>            :     const std::array&lt;DataVector, 2&gt;&amp; source_coords) const;
+<span class="lineNum">     145 </span>            : 
+<span class="lineNum">     146 </span>            : template std::array&lt;double, 2&gt; Identity&lt;2&gt;::inverse(
+<span class="lineNum">     147 </span>            :     const std::array&lt;std::reference_wrapper&lt;const double&gt;, 2&gt;&amp; target_coords)
+<span class="lineNum">     148 </span>            :     const;
+<span class="lineNum">     149 </span>            : template std::array&lt;double, 2&gt; Identity&lt;2&gt;::inverse(
+<span class="lineNum">     150 </span>            :     const std::array&lt;double, 2&gt;&amp; target_coords) const;
+<span class="lineNum">     151 </span>            : template std::array&lt;DataVector, 2&gt; Identity&lt;2&gt;::inverse(
+<span class="lineNum">     152 </span>            :     const std::array&lt;std::reference_wrapper&lt;const DataVector&gt;, 2&gt;&amp;
+<span class="lineNum">     153 </span>            :         target_coords) const;
+<span class="lineNum">     154 </span>            : template std::array&lt;DataVector, 2&gt; Identity&lt;2&gt;::inverse(
+<span class="lineNum">     155 </span>            :     const std::array&lt;DataVector, 2&gt;&amp; target_coords) const;
+<span class="lineNum">     156 </span>            : 
+<span class="lineNum">     157 </span>            : template Tensor&lt;double, tmpl::integral_list&lt;std::int32_t, 2, 1&gt;,
+<span class="lineNum">     158 </span>            :                 index_list&lt;SpatialIndex&lt;2, UpLo::Up, Frame::NoFrame&gt;,
+<span class="lineNum">     159 </span>            :                            SpatialIndex&lt;2, UpLo::Lo, Frame::NoFrame&gt;&gt;&gt;
+<span class="lineNum">     160 </span>            : Identity&lt;2&gt;::jacobian(const std::array&lt;std::reference_wrapper&lt;const double&gt;, 2&gt;&amp;
+<span class="lineNum">     161 </span>            :                           source_coords) const;
+<span class="lineNum">     162 </span>            : template Tensor&lt;double, tmpl::integral_list&lt;std::int32_t, 2, 1&gt;,
+<span class="lineNum">     163 </span>            :                 index_list&lt;SpatialIndex&lt;2, UpLo::Up, Frame::NoFrame&gt;,
+<span class="lineNum">     164 </span>            :                            SpatialIndex&lt;2, UpLo::Lo, Frame::NoFrame&gt;&gt;&gt;
+<span class="lineNum">     165 </span>            : Identity&lt;2&gt;::jacobian(const std::array&lt;double, 2&gt;&amp; source_coords) const;
+<span class="lineNum">     166 </span>            : template Tensor&lt;DataVector, tmpl::integral_list&lt;std::int32_t, 2, 1&gt;,
+<span class="lineNum">     167 </span>            :                 index_list&lt;SpatialIndex&lt;2, UpLo::Up, Frame::NoFrame&gt;,
+<span class="lineNum">     168 </span>            :                            SpatialIndex&lt;2, UpLo::Lo, Frame::NoFrame&gt;&gt;&gt;
+<span class="lineNum">     169 </span>            : Identity&lt;2&gt;::jacobian(const std::array&lt;std::reference_wrapper&lt;const DataVector&gt;,
+<span class="lineNum">     170 </span>            :                                        2&gt;&amp; source_coords) const;
+<span class="lineNum">     171 </span>            : template Tensor&lt;DataVector, tmpl::integral_list&lt;std::int32_t, 2, 1&gt;,
+<span class="lineNum">     172 </span>            :                 index_list&lt;SpatialIndex&lt;2, UpLo::Up, Frame::NoFrame&gt;,
+<span class="lineNum">     173 </span>            :                            SpatialIndex&lt;2, UpLo::Lo, Frame::NoFrame&gt;&gt;&gt;
+<span class="lineNum">     174 </span>            : Identity&lt;2&gt;::jacobian(const std::array&lt;DataVector, 2&gt;&amp; source_coords) const;
+<span class="lineNum">     175 </span>            : 
+<span class="lineNum">     176 </span>            : template Tensor&lt;double, tmpl::integral_list&lt;std::int32_t, 2, 1&gt;,
+<span class="lineNum">     177 </span>            :                 index_list&lt;SpatialIndex&lt;2, UpLo::Up, Frame::NoFrame&gt;,
+<span class="lineNum">     178 </span>            :                            SpatialIndex&lt;2, UpLo::Lo, Frame::NoFrame&gt;&gt;&gt;
+<span class="lineNum">     179 </span>            : Identity&lt;2&gt;::inv_jacobian(const std::array&lt;std::reference_wrapper&lt;const double&gt;,
+<span class="lineNum">     180 </span>            :                                            2&gt;&amp; source_coords) const;
+<span class="lineNum">     181 </span>            : template Tensor&lt;double, tmpl::integral_list&lt;std::int32_t, 2, 1&gt;,
+<span class="lineNum">     182 </span>            :                 index_list&lt;SpatialIndex&lt;2, UpLo::Up, Frame::NoFrame&gt;,
+<span class="lineNum">     183 </span>            :                            SpatialIndex&lt;2, UpLo::Lo, Frame::NoFrame&gt;&gt;&gt;
+<span class="lineNum">     184 </span>            : Identity&lt;2&gt;::inv_jacobian(const std::array&lt;double, 2&gt;&amp; source_coords) const;
+<span class="lineNum">     185 </span>            : template Tensor&lt;DataVector, tmpl::integral_list&lt;std::int32_t, 2, 1&gt;,
+<span class="lineNum">     186 </span>            :                 index_list&lt;SpatialIndex&lt;2, UpLo::Up, Frame::NoFrame&gt;,
+<span class="lineNum">     187 </span>            :                            SpatialIndex&lt;2, UpLo::Lo, Frame::NoFrame&gt;&gt;&gt;
+<span class="lineNum">     188 </span>            : Identity&lt;2&gt;::inv_jacobian(
+<span class="lineNum">     189 </span>            :     const std::array&lt;std::reference_wrapper&lt;const DataVector&gt;, 2&gt;&amp;
+<span class="lineNum">     190 </span>            :         source_coords) const;
+<span class="lineNum">     191 </span>            : template Tensor&lt;DataVector, tmpl::integral_list&lt;std::int32_t, 2, 1&gt;,
+<span class="lineNum">     192 </span>            :                 index_list&lt;SpatialIndex&lt;2, UpLo::Up, Frame::NoFrame&gt;,
+<span class="lineNum">     193 </span>            :                            SpatialIndex&lt;2, UpLo::Lo, Frame::NoFrame&gt;&gt;&gt;
+<a name="194"><span class="lineNum">     194 </span>            : Identity&lt;2&gt;::inv_jacobian(const std::array&lt;DataVector, 2&gt;&amp; source_coords) const;</a>
+<span class="lineNum">     195 </span>            : /// \endcond
+<span class="lineNum">     196 </span><span class="lineCov">       1458 : }  // namespace CoordinateMaps</span>
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.13</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>
