@@ -8,6 +8,7 @@ set(LIBRARY_SOURCES
   )
 
 add_subdirectory(GrMhd)
+add_subdirectory(NewtonianEuler)
 
 add_test_library(
   ${LIBRARY}
