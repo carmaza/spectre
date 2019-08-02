@@ -9,6 +9,8 @@
 #include "DataStructures/DataBox/DataBoxTag.hpp"
 #include "DataStructures/Tensor/TypeAliases.hpp"
 #include "Evolution/Systems/NewtonianEuler/TagsDeclarations.hpp"
+#include "Evolution/Tags.hpp"
+#include "Options/Options.hpp"
 
 namespace NewtonianEuler {
 /// %Tags for the conservative formulation of the Newtonian Euler system
@@ -87,5 +89,41 @@ struct SoundSpeedSquared : db::SimpleTag {
   using type = Scalar<DataType>;
   static std::string name() noexcept { return "SoundSpeedSquared"; }
 };
+
+/// The source term in the evolution equations
+template <typename SourceTermType>
+struct SourceTerm : db::SimpleTag {
+  using type = SourceTermType;
+  static std::string name() noexcept { return "SourceTerm"; }
+};
+
 }  // namespace Tags
+
+namespace OptionTags {
+/// \ingroup OptionGroupsGroup
+/// Groups option tags related to the NewtonianEuler evolution system.
+struct NewtonianEulerGroup {
+  static std::string name() noexcept { return "NewtonianEuler"; }
+  static constexpr OptionString help{"Options for the evolution system"};
+  using group = ::OptionTags::EvolutionSystemGroup;
+};
+
+/// \ingroup OptionGroupsGroup
+/// \brief Holds the `OptionTags::SourceTerm` option in the input file
+struct SourceTermGroup {
+  static std::string name() noexcept { return "SourceTerm"; }
+  static constexpr OptionString help{"The source term used in the evolution."};
+  using group = NewtonianEulerGroup;
+};
+
+/// \brief Source terms for the evolution equations
+template <typename SourceTermType>
+struct SourceTerm : Tags::SourceTerm<SourceTermType> {
+  static std::string name() noexcept { return option_name<SourceTermType>(); }
+  static constexpr OptionString help = SourceTermType::help;
+  using type = SourceTermType;
+  using group = SourceTermGroup;
+};
+
+}  // namespace OptionTags
 }  // namespace NewtonianEuler
