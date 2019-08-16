@@ -28,6 +28,7 @@
 #include "Evolution/Initialization/Evolution.hpp"
 #include "Evolution/Initialization/Limiter.hpp"
 #include "Evolution/Systems/NewtonianEuler/SoundSpeedSquared.hpp"
+#include "Evolution/Systems/NewtonianEuler/Sources/UniformAcceleration.hpp"
 #include "Evolution/Systems/NewtonianEuler/System.hpp"
 #include "Evolution/Systems/NewtonianEuler/Tags.hpp"
 #include "IO/Observer/Actions.hpp"
@@ -86,8 +87,10 @@ struct EvolutionMetavars {
 
   using analytic_solution = NewtonianEuler::Solutions::RiemannProblem<Dim>;
 
+  using source_type = NewtonianEuler::Sources::UniformAcceleration<Dim>;
+
   using system = NewtonianEuler::System<
-      Dim, typename analytic_solution::equation_of_state_type>;
+      Dim, typename analytic_solution::equation_of_state_type, source_type>;
 
   using temporal_id = Tags::TimeId;
   static constexpr bool local_time_stepping = false;
@@ -134,7 +137,7 @@ struct EvolutionMetavars {
   using compute_rhs = tmpl::flatten<tmpl::list<
       Actions::ComputeVolumeFluxes,
       dg::Actions::SendDataForFluxes<EvolutionMetavars>,
-      Actions::ComputeTimeDerivative,
+      Actions::ComputeVolumeSources, Actions::ComputeTimeDerivative,
       dg::Actions::ImposeDirichletBoundaryConditions<EvolutionMetavars>,
       dg::Actions::ReceiveDataForFluxes<EvolutionMetavars>,
       tmpl::conditional_t<local_time_stepping, tmpl::list<>,
@@ -216,6 +219,7 @@ struct EvolutionMetavars {
       tmpl::list<analytic_solution_tag,
                  OptionTags::TypedTimeStepper<tmpl::conditional_t<
                      local_time_stepping, LtsTimeStepper, TimeStepper>>,
+                 NewtonianEuler::OptionTags::SourceTerm<source_type>,
                  OptionTags::EventsAndTriggers<events, triggers>>;
 
   static constexpr OptionString help{

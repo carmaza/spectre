@@ -10,6 +10,12 @@ Evolution:
   TimeStepper:
     RungeKutta3
 
+EvolutionSystem:
+  NewtonianEuler:
+    SourceTerm:
+      UniformAcceleration:
+        AccelerationField: [0.0, 0.0, 0.0]
+
 DomainCreator:
   Brick:
     LowerBound: [-0.25, 0.0, 0.0]
