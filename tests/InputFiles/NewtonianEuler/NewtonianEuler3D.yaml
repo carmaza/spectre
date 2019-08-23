@@ -14,26 +14,26 @@ EvolutionSystem:
   NewtonianEuler:
     SourceTerm:
       UniformAcceleration:
-        AccelerationField: [0.0, 0.0, 0.0]
+        AccelerationField: [0.0, 0.0, -1.0]
 
 DomainCreator:
   Brick:
-    LowerBound: [-0.25, 0.0, 0.0]
-    UpperBound: [0.75, 0.1, 0.1]
-    IsPeriodicIn: [false, false, false]
-    InitialRefinement: [4, 0, 0]
+    LowerBound: [0.0, 0.0, 0.0]
+    UpperBound: [1.0, 0.05, 3.0]
+    IsPeriodicIn: [true, true, false]
+    InitialRefinement: [4, 0, 7]
     InitialGridPoints: [2, 2, 2]
 
 AnalyticSolution:
-  RiemannProblem:
+  RayleighTaylorInst:
     AdiabaticIndex: 1.4
-    InitialPosition: 0.25
-    LeftMassDensity: 1.0
-    LeftVelocity: [0.0, 0.5, -0.3]
-    LeftPressure: 1.0
-    RightMassDensity: 0.125
-    RightVelocity: [0.0, 0.2, 0.1]
-    RightPressure: 0.1
+    LowerMassDensity: 0.2
+    UpperMassDensity: 1.0
+    BackgroundPressure: 2.5
+    PerturbAmplitude: 0.1
+    DampingFactor: 0.4
+    InterfaceHeight: 1.5
+    GravAcceleration: 1.0
 
 NumericalFlux:
   Hll:
@@ -47,14 +47,14 @@ Limiter:
     TvbmConstant: 50.0
 
 EventsAndTriggers:
-  # ? EveryNSlabs:
-  #     N: 100
-  #     Offset: 0
-  # : - ObserveFields:
-  #       VariablesToObserve: [MassDensity]
-  # ? PastTime: 0.7501
-  ? SpecifiedSlabs:
-      Slabs: [10]
+  ? EveryNSlabs:
+      N: 100
+      Offset: 0
+  : - ObserveFields:
+        VariablesToObserve: [MassDensity, Pressure, Velocity]
+  ? PastTime: 0.0101
+  # ? SpecifiedSlabs:
+  #     Slabs: [10]
   : - Completion
 
 Observers:

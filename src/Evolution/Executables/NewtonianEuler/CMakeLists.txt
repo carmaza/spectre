@@ -12,6 +12,7 @@ set(LIBS_TO_LINK
   LinearOperators
   MathFunctions
   NewtonianEuler
+  NewtonianEulerAnalyticData
   NewtonianEulerSolutions
   NewtonianEulerSources
   Time

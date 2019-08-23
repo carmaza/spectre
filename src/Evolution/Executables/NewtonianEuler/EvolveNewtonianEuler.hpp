@@ -52,7 +52,7 @@
 #include "ParallelAlgorithms/DiscontinuousGalerkin/InitializeMortars.hpp"
 #include "ParallelAlgorithms/Initialization/Actions/AddComputeTags.hpp"
 #include "ParallelAlgorithms/Initialization/Actions/RemoveOptionsAndTerminatePhase.hpp"
-#include "PointwiseFunctions/AnalyticSolutions/NewtonianEuler/RiemannProblem.hpp"
+#include "PointwiseFunctions/AnalyticData/NewtonianEuler/RayleighTaylorInst.hpp"
 #include "PointwiseFunctions/AnalyticSolutions/Tags.hpp"
 #include "PointwiseFunctions/Hydro/Tags.hpp"
 #include "Time/Actions/AdvanceTime.hpp"
@@ -85,7 +85,8 @@ template <size_t Dim>
 struct EvolutionMetavars {
   static constexpr size_t volume_dim = Dim;
 
-  using analytic_solution = NewtonianEuler::Solutions::RiemannProblem<Dim>;
+  using analytic_solution =
+      NewtonianEuler::AnalyticData::RayleighTaylorInst<Dim>;
 
   using source_type = NewtonianEuler::Sources::UniformAcceleration<Dim>;
 
