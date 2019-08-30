@@ -180,7 +180,7 @@ struct EvolutionMetavars {
               typename system::primitive_variables_tag,
               NewtonianEuler::Tags::SoundSpeed<DataVector>>>,
       Initialization::Actions::Evolution<EvolutionMetavars>,
-      dg::Actions::InitializeMortars<EvolutionMetavars>,
+      dg::Actions::InitializeMortars<EvolutionMetavars, false>,
       Initialization::Actions::DiscontinuousGalerkin<EvolutionMetavars>,
       Initialization::Actions::Minmod<Dim>,
       Initialization::Actions::RemoveOptionsAndTerminatePhase>;

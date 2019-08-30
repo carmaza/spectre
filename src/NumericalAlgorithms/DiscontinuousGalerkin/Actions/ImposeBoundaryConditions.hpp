@@ -130,6 +130,10 @@ struct ImposeDirichletBoundaryConditions {
       const auto mortar_id = std::make_pair(
           direction, ElementId<volume_dim>::external_boundary_id());
 
+      if (db::get<Tags::VariablesBoundaryData>(*box).count(mortar_id) == 0) {
+        continue;
+      }
+
       auto interior_data = DgActions_detail::compute_local_mortar_data(
           *box, direction, normal_dot_numerical_flux_computer,
           Tags::BoundaryDirectionsInterior<volume_dim>{}, Metavariables{});
