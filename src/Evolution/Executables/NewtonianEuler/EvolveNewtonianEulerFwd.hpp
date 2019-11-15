@@ -6,6 +6,11 @@
 #include <cstddef>
 
 namespace NewtonianEuler {
+namespace AnalyticData {
+template <size_t Dim>
+class OuTurbulence;
+}  // namespace AnalyticData
+
 namespace Solutions {
 template <size_t Dim>
 class IsentropicVortex;

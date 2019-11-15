@@ -13,6 +13,7 @@ set(LIBS_TO_LINK
   LinearOperators
   MathFunctions
   NewtonianEuler
+  NewtonianEulerAnalyticData
   NewtonianEulerLimiters
   NewtonianEulerNumericalFluxes
   NewtonianEulerSolutions
@@ -64,3 +65,13 @@ function(add_lane_emden_executable)
 endfunction(add_lane_emden_executable)
 
 add_lane_emden_executable()
+
+function(add_ou_turbulence_executable DIM)
+  add_newtonian_euler_executable(
+    OuTurbulence
+    ${DIM}
+    NewtonianEuler::AnalyticData::OuTurbulence<${DIM}>
+    )
+endfunction(add_ou_turbulence_executable)
+
+add_ou_turbulence_executable(3)
