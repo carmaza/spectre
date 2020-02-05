@@ -14,6 +14,7 @@ set(LIBS_TO_LINK
   MathFunctions
   NewtonianEuler
   NewtonianEulerAnalyticData
+  NewtonianEulerLimiters
   NewtonianEulerNumericalFluxes
   NewtonianEulerSolutions
   NewtonianEulerSources

@@ -21,13 +21,14 @@
 #include "Evolution/Conservative/UpdateConservatives.hpp"
 #include "Evolution/DiscontinuousGalerkin/DgElementArray.hpp"
 #include "Evolution/DiscontinuousGalerkin/Limiters/LimiterActions.hpp"
-#include "Evolution/DiscontinuousGalerkin/Limiters/Minmod.tpp"
+//#include "Evolution/DiscontinuousGalerkin/Limiters/Minmod.tpp"
 #include "Evolution/DiscontinuousGalerkin/Limiters/Tags.hpp"
 #include "Evolution/Initialization/ConservativeSystem.hpp"
 #include "Evolution/Initialization/DgDomain.hpp"
 #include "Evolution/Initialization/DiscontinuousGalerkin.hpp"
 #include "Evolution/Initialization/Evolution.hpp"
 #include "Evolution/Initialization/Limiter.hpp"
+#include "Evolution/Systems/NewtonianEuler/Limiters/Weno.hpp"
 #include "Evolution/Systems/NewtonianEuler/SoundSpeedSquared.hpp"
 #include "Evolution/Systems/NewtonianEuler/Sources/NoSource.hpp"
 #include "Evolution/Systems/NewtonianEuler/System.hpp"
@@ -139,11 +140,7 @@ struct EvolutionMetavars {
   using normal_dot_numerical_flux =
       Tags::NumericalFlux<dg::NumericalFluxes::Hll<system>>;
 
-  using limiter = Tags::Limiter<Limiters::Minmod<
-      Dim,
-      tmpl::list<NewtonianEuler::Tags::MassDensityCons,
-                 NewtonianEuler::Tags::MomentumDensity<Dim, Frame::Inertial>,
-                 NewtonianEuler::Tags::EnergyDensity>>>;
+  using limiter = Tags::Limiter<NewtonianEuler::Limiters::Weno<Dim>>;
 
   using step_choosers_common =
       tmpl::list<StepChoosers::Registrars::Cfl<volume_dim, Frame::Inertial>,
@@ -204,7 +201,8 @@ struct EvolutionMetavars {
                   NewtonianEuler::Tags::SoundSpeed<DataVector>,
                   NewtonianEuler::Tags::SpecificKineticEnergy<DataVector>,
                   NewtonianEuler::Tags::KineticEnergyDensity<DataVector>,
-                  NewtonianEuler::Tags::InternalEnergyDensity<DataVector>>>,
+	          NewtonianEuler::Tags::InternalEnergyDensity<DataVector>,
+	          Tags::LimiterDiagnostics>>,
           tmpl::conditional_t<evolution::is_analytic_solution_v<initial_data>,
                               analytic_variables_tags, tmpl::list<>>>,
       Events::Registrars::ChangeSlabSize<slab_choosers>>>;
