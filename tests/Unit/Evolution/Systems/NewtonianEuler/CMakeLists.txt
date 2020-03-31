@@ -14,6 +14,7 @@ set(LIBRARY_SOURCES
   Test_TurbulenceComputeItems.cpp
   )
 
+add_subdirectory(Limiters)
 add_subdirectory(NumericalFluxes)
 add_subdirectory(Sources)
 
