@@ -115,7 +115,7 @@ class ObserveVolumeIntegrals<VolumeDim, ObservationValueTag,
 
   using argument_tags =
       tmpl::list<ObservationValueTag, domain::Tags::Mesh<VolumeDim>,
-                 domain::Tags::ElementMap<VolumeDim, Frame::Inertial>,
+                 domain::Tags::ElementMap<VolumeDim, Frame::Grid>,
                  domain::Tags::Coordinates<VolumeDim, Frame::Logical>,
                  Tensors...>;
 
@@ -124,7 +124,7 @@ class ObserveVolumeIntegrals<VolumeDim, ObservationValueTag,
   void operator()(
       const db::const_item_type<ObservationValueTag>& observation_value,
       const Mesh<VolumeDim>& mesh,
-      const ElementMap<VolumeDim, Frame::Inertial>& element_map,
+      const ElementMap<VolumeDim, Frame::Grid>& element_map,
       const tnsr::I<DataVector, VolumeDim, Frame::Logical>& logical_coordinates,
       const db::const_item_type<Tensors>&... tensors,
       Parallel::ConstGlobalCache<Metavariables>& cache,

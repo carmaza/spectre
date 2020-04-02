@@ -188,8 +188,10 @@ void test_observe(const std::unique_ptr<ObserveEvent> observe) noexcept {
   const auto domain = creator->create_domain();
   const auto& block = domain.blocks()[element_id.block_id()];
 
-  ElementMap<VolumeDim, Frame::Inertial> map{
-      element_id, block.stationary_map().get_clone()};
+  ElementMap<VolumeDim, Frame::Grid> map{
+      element_id, block.is_time_dependent()
+                      ? block.moving_mesh_logical_to_grid_map().get_clone()
+                      : block.stationary_map().get_to_grid_frame()};
   Mesh<VolumeDim> mesh{creator->initial_extents()[0],
                        Spectral::Basis::Chebyshev,
                        Spectral::Quadrature::GaussLobatto};
@@ -231,7 +233,7 @@ void test_observe(const std::unique_ptr<ObserveEvent> observe) noexcept {
   const double observation_time = 2.0;
   const auto box = db::create<
       db::AddSimpleTags<ObservationTimeTag, domain::Tags::Mesh<VolumeDim>,
-                        domain::Tags::ElementMap<VolumeDim, Frame::Inertial>,
+                        domain::Tags::ElementMap<VolumeDim, Frame::Grid>,
                         domain::Tags::Coordinates<VolumeDim, Frame::Logical>,
                         Tags::Variables<typename decltype(vars)::tags_list>>>(
       observation_time, mesh, std::move(map), logical_coords, vars);
