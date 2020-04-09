@@ -87,11 +87,21 @@ bool Weno<VolumeDim>::operator()(
   // Checks for the post-timestep, pre-limiter NewtonianEuler state, e.g.:
   const double mean_density = mean_value(get(*mass_density_cons), mesh);
   ASSERT(mean_density > 0.0,
-         "Positivity was violated on a cell-average level.");
+         "Positivity was violated on a cell-average level.\n"
+         "Mean density value: "
+             << mean_density
+             << "\n"
+                "At element ID: "
+             << element.id() << ".\n");
   if (ThermodynamicDim == 2) {
     const double mean_energy = mean_value(get(*energy_density), mesh);
     ASSERT(mean_energy > 0.0,
-           "Positivity was violated on a cell-average level.");
+           "Positivity was violated on a cell-average level.\n"
+           "Mean energy value: "
+               << mean_energy
+               << "\n"
+                  "At element ID: "
+               << element.id() << ".\n");
   }
   // End pre-limiter checks
 
@@ -109,7 +119,14 @@ bool Weno<VolumeDim>::operator()(
   }
 
   // Checks for the post-limiter NewtonianEuler state, e.g.:
-  ASSERT(min(get(*mass_density_cons)) > 0.0, "Bad density after limiting.");
+  const auto min_density = min(get(*mass_density_cons));
+  ASSERT(min_density > 0.0,
+         "Bad density after limiting.\n"
+         "Min density value: "
+             << min_density
+             << "\n"
+                "At element ID: "
+             << element.id() << ".\n");
   if (ThermodynamicDim == 2) {
     Scalar<DataVector> pressure{};
     // Need this make_overloader until we can use `if constexpr`
@@ -130,7 +147,14 @@ bool Weno<VolumeDim>::operator()(
           pressure = the_equation_of_state.pressure_from_density_and_energy(
               *mass_density_cons, specific_internal_energy);
         })(equation_of_state);
-    ASSERT(min(get(pressure)) > 0.0, "Bad energy after limiting.");
+    const auto min_pressure = min(get(pressure));
+    ASSERT(min_pressure > 0.0,
+           "Bad pressure after limiting.\n"
+           "Min pressure value: "
+               << min_pressure
+               << "\n"
+                  "At element ID: "
+               << element.id() << ".\n");
   }
   // End post-limiter checks
 
