@@ -82,12 +82,21 @@ bool Weno<VolumeDim>::operator()(
 
   // Checks for the post-timestep, pre-limiter NewtonianEuler state, e.g.:
   const double mean_density = mean_value(get(*mass_density_cons), mesh);
-  ASSERT(mean_density > 0.0,
-         "Positivity was violated on a cell-average level.\n"
-         "This probably means the data at the _beginning_ of the timestep had\n"
-         "cell-boundary values that produced excessive outflowing fluxes.\n"
-         "The fix is presumably to use a better limiting scheme that avoids\n"
-         "these unphysically large fluxes...?");
+  ASSERT(
+      mean_density > 0.0,
+      "Positivity was violated on a cell-average level.\n"
+      "mean density = "
+          << mean_density
+          << ".\n"
+             "element ID: "
+          << element.id()
+          << ".\n"
+             "This probably means the data at the _beginning_ of the timestep "
+             "had\n"
+             "cell-boundary values that produced excessive outflowing fluxes.\n"
+             "The fix is presumably to use a better limiting scheme that "
+             "avoids\n"
+             "these unphysically large fluxes...?");
 
   const ConservativeVarsWeno weno(weno_type_, neighbor_linear_weight_,
                                   tvb_constant_, disable_for_debugging_);
@@ -96,11 +105,21 @@ bool Weno<VolumeDim>::operator()(
            element_size, neighbor_data);
 
   // Checks for the post-limiter NewtonianEuler state, e.g.:
-  ASSERT(min(get(*mass_density_cons)) > 0.0,
+  const auto min_density = min(get(*mass_density_cons));
+  ASSERT(min_density > 0.0,
          "Bad values after limiting.\n"
-         "The limiter should not produce an unphysical solution. May need a\n"
-         "better limiter, or to 'fix' the output of this limiter to avoid the\n"
-         "unphysical values (e.g., by setting the solution to a constant).\n");
+         "min(mass density cons) = "
+             << min_density
+             << ".\n"
+                "element ID: "
+             << element.id()
+             << ".\n"
+                "The limiter should not produce an unphysical solution. May "
+                "need a\n"
+                "better limiter, or to 'fix' the output of this limiter to "
+                "avoid the\n"
+                "unphysical values (e.g., by setting the solution to a "
+                "constant).\n");
 
   get(*limiter_diagnostics) = (limiter_activated ? 1.0 : 0.0);
   return limiter_activated;
